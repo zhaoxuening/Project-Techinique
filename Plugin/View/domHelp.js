@@ -345,8 +345,8 @@ domHelp = {
    addLi: function (parent, attributs) {
       var li;
       li = this.addElement(parent, "li");
-      if (attributs.id) {
-         li.setAttribute("id", attributs.id);
+      if (attributs.value) {
+         li.setAttribute("value", attributs.value);
       }
       if (attributs.class) {
          li.setAttribute("class", attributs.class);

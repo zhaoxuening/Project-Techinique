@@ -169,9 +169,9 @@ SiteView = {
         li2 = domHelp.addOption(li, {});
         domHelp.addText(li2, "User");
         li3 = domHelp.addOption(li, {});
-        domHelp.addText(li3, "Groups");
+        domHelp.addText(li3, "Group");
         li4 = domHelp.addOption(li, {});
-        domHelp.addText(li4, "Author");
+        domHelp.addText(li4, "Log");
         li5 = domHelp.addOption(li, {});
         domHelp.addText(li5, "Keywords");
         li6 = domHelp.addOption(li, {});
@@ -187,8 +187,19 @@ SiteView = {
             type: "text",
             value: ""
         });
-        button = domHelp.addInputSubmit(div4, {class: "btn btn-primary", type: "submit"});
+        button = domHelp.addInputSubmit(div4, {class: "btn btn-primary", type: "submit", id: "searchBtn"});
         i = domHelp.addI(button, {class: "icon-search icon-white"});
+        var btnSearch = document.getElementById("searchBtn");
+        if (btnSearch) {
+            btnSearch.addEventListener("click", function () {
+                    var login = document.getElementById("login").text;
+                    var cond1 = document.getElementById("selectSearch").options[window.document.getElementById("selectSearch").selectedIndex].text;
+                    var cond2 = document.getElementById("search").value;
+                    gateway("http://localhost/Controller/user/search.php", "login=" + login + "&cond1=" + cond1 + "&cond2=" + cond2 + "", "search");
+
+                }
+            );
+        }
     },
 
     linkView: function (parent, i) {
@@ -196,7 +207,7 @@ SiteView = {
         div = domHelp.addDiv(parent, {});
         h2 = domHelp.addH3(div, {});
         //strong = domHelp.addStrong(h2,{});
-        a = domHelp.addA(h2, {class: "text-info",target: "_blank", id: "linkname" + i});
+        a = domHelp.addA(h2, {class: "text-info", target: "_blank", id: "linkname" + i});
         domHelp.addText(a, "Link name");
 
         p3 = domHelp.addP(div, {});
@@ -235,11 +246,11 @@ SiteView = {
     },
 
     footerView: function (parent) {
-        var footer, p, i ;
-        footer = domHelp.addFooter(parent,{});
-        p = domHelp.addP(footer,{});
+        var footer, p, i;
+        footer = domHelp.addFooter(parent, {});
+        p = domHelp.addP(footer, {});
         i = domHelp.addI(p, {class: "icon-leaf"});
-        domHelp.addText(p," Group Project Technical 2014-2015: Social Bookmark");
+        domHelp.addText(p, " Group Project Technical 2014-2015: Social Bookmark");
     },
 
     loadHomeView: function () {
@@ -587,8 +598,8 @@ SiteView = {
         SiteView.loadToolBarLeftView(div2);
         div3 = domHelp.addDiv(div2, {class: "span9"});
         SiteView.loadToolSearchView(div3);
-        div4 = domHelp.addDiv(div3, {class: "row-fluid" });
-       //div5 = domHelp.addDiv(div4, {class: "span4"});
+        div4 = domHelp.addDiv(div3, {class: "row-fluid"});
+        //div5 = domHelp.addDiv(div4, {class: "span4"});
         table = domHelp.addTable(div4, {id: "tableTags", class: "table table-hover table-bordered"});
         SiteView.footerView(div);
     },
@@ -613,6 +624,8 @@ SiteView = {
 
     },
 
+    //View for all logs
+
     loadLogsView: function () {
         var body, div, div2, div3, table;
 
@@ -626,6 +639,24 @@ SiteView = {
         div3 = domHelp.addDiv(div2, {class: "span9"});
         SiteView.loadToolSearchView(div3);
         table = domHelp.addTable(div3, {class: "table table-striped table-hover table-bordered", id: "tableLogs"});
+
+        SiteView.footerView(div);
+    },
+
+    //view for page search results
+    loadSearchView: function () {
+        var body, div, div2, div3, table;
+
+        domHelp.cleanBody();
+        body = document.getElementsByTagName("body").item(0);
+        SiteView.loadToolBarView(body);
+        div = domHelp.addDiv(body, {class: "container-fluid", style: "padding: 20px 20px 0px 20px"});
+        div2 = domHelp.addDiv(div, {class: "row-fluid"});
+
+        SiteView.loadToolBarLeftView(div2);
+        div3 = domHelp.addDiv(div2, {class: "span9"});
+        SiteView.loadToolSearchView(div3);
+        table = domHelp.addTable(div3, {id: "tableSearch"});
 
         SiteView.footerView(div);
     }

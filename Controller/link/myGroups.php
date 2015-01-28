@@ -8,6 +8,7 @@ $id_current = $user->findUserByLogin($login);
 $group = new GroupsManager($pdo);
 $groupsOfUser = $group->findGroupsByUser($id_current);
 echo $login;
-echo ",";
+echo ";";
 echo $groupsOfUser;
+echo ";";
 ?>

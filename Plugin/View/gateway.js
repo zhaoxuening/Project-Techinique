@@ -40,6 +40,9 @@ gateway = function(url, params, mode) {
                     case "logs" :
                         UserDataController.logs(responseText);
                         break;
+                    case "search" :
+                        UserDataController.search(responseText);
+                        break;
                     default:
                         break;
                 }

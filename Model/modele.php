@@ -343,7 +343,7 @@ class UsersManager {
    }
 
    public function findUserByLogin($login) {
-      $sql = 'SELECT * FROM users WHERE user_name= "'.$login.'"';
+      $sql = 'SELECT * FROM users WHERE user_name LIKE "%' . $login . '%"';
       $requete = $this->_db->prepare($sql);
       $requete->execute();
       $row = $requete->fetch();
@@ -412,6 +412,11 @@ class TagsManager {
         $requete->execute();
         $row = $requete->fetch();
         return $row['tag_name'];
+//        $sql = 'SELECT * FROM group_members, groups WHERE group_members.member_id= "' . $userId . '" AND group_members.group_id=groups.group_id';
+//        $requete = $this->_db->prepare($sql);
+//        $requete->execute();
+//        $row = $requete->fetch();
+//        return $row['group_name'];
     }
 
     public function findTagsParentByUser($userId)
@@ -456,7 +461,16 @@ class GroupsManager {
    public function setDb(PDO $db) {
       $this->_db = $db;
    }
-   
+
+    public function findGroupsByName($group_name){
+        $sql = 'SELECT * FROM groups WHERE group_name LIKE "%' . $group_name . '%"';
+        $requete = $this->_db->prepare($sql);
+        $requete->execute();
+        $row = $requete->fetch();
+        return $row['group_name'];
+
+    }
+
     public function findGroupsByUser($userId)
     {
         $sql = 'SELECT * FROM group_members, groups WHERE group_members.member_id= "' . $userId . '" and group_members.group_id=groups.group_id';
@@ -509,7 +523,17 @@ class PostsManager {
         return $posts;
    }
 
-   public function setDb(PDO $db) {
+    public function findPostByKeyword($keyword) {
+        $posts = array();
+        $sql = 'SELECT * FROM posts WHERE post_description LIKE "%'.$keyword.'%"';
+        $requete = $this->_db->query($sql);
+        while($donnees = $requete->fetch()) {
+            array_push($posts, $donnees);
+        }
+        return $posts;
+    }
+
+    public function setDb(PDO $db) {
       $this->_db = $db;
    }
 }
@@ -527,6 +551,15 @@ class PostTagsManager{
 		$requete = $this->_db->prepare($sql);
 		$requete->execute();
 	}
+
+    public function findPostsByTag($tag) {
+        //$posts = array();
+        $sql = 'SELECT * FROM post_tags, posts, tags WHERE tags.tag_name= "' .$tag. '" and post_tags.tags_id= tags.tag_id and posts.post_id=post_tags.post_id ';
+        $requete = $this->_db->prepare($sql);
+        $requete->execute();
+        $row = $requete->fetch();
+        return $row['post_title'];
+    }
 
 	public function setDb(PDO $db){
 		$this->_db = $db;
@@ -549,6 +582,16 @@ class LogsManager{
     public function findAllLogs() {
         $logs = array();
         $sql = 'SELECT * FROM logs';
+        $requete = $this->_db->query($sql);
+        while($donnees = $requete->fetch()) {
+            array_push($logs, $donnees);
+        }
+        return $logs;
+    }
+
+    public function findLogByMessage($mess) {
+        $logs = array();
+        $sql = 'SELECT * FROM logs WHERE message LIKE "%' . $mess . '%"';
         $requete = $this->_db->query($sql);
         while($donnees = $requete->fetch()) {
             array_push($logs, $donnees);

@@ -26,12 +26,12 @@ UserDataController = {
     myGroups : function(reqResult) {
         SiteView.loadMyGroupsView();
 
-        var groups = reqResult.split(",");
+        var groups = reqResult.split(";");
         document.getElementById("login").text = groups[0];
 
         var table, tr, td, td2;
         table = document.getElementById("tableGroups");
-        for(var i=1;i<groups.length;i++) {
+        for(var i=1;i<groups.length-1;i++) {
             tr = domHelp.addTr(table, {id: "group" + i});
             td = domHelp.addTd(tr, {id: "groupName"+i});
             domHelp.addText(td, groups[i]);
@@ -113,6 +113,78 @@ UserDataController = {
             td2 = domHelp.addTd(tr, {id: "logTime"+i});
             domHelp.addText(td2, logs[i*2-1]);
 
+        }
+
+    },
+
+    search: function (reqResult) {
+        SiteView.loadSearchView();
+
+        var myLinks = reqResult.split(";");
+        document.getElementById("login").text = myLinks[0];
+
+        var search = myLinks[1];
+        var table, tr, td, td2, button, thead, tbody, h, h2;
+
+        table = document.getElementById("tableSearch");
+
+        if(search == "User"){
+            for(var i=0;i<(myLinks.length-2)/4;i++) {
+                tr = domHelp.addTr(table,{});
+                SiteView.linkView(tr,i);
+                document.getElementById("linkname"+i).text = myLinks[i*4+3];
+                document.getElementById("linkname"+i).setAttribute("href",myLinks[i*4+5]);
+                document.getElementById("linkname"+i).setAttribute("target","_blank");
+                document.getElementById("linkurl"+i).text = myLinks[i*4+2];
+                document.getElementById("post_time"+i).text = myLinks[i*4+4];
+                document.getElementById("usernamePost"+i).text = myLinks[0];
+            }
+        }
+        else if(search == "Group"){
+            for(var i=0;i<myLinks.length-2;i++) {
+                tr = domHelp.addTr(table, {id: "group" + i});
+                td = domHelp.addTd(tr, {id: "groupName"+i});
+                domHelp.addText(td, myLinks[i+2]);
+                td2 = domHelp.addTd(tr, {});
+                button = domHelp.addInputSubmit(td2, {
+                    type: "button",
+                    id: "btnDeleteGroup"+i,
+                    class: "btn btn-small btn-primary"
+                });
+                domHelp.addText(button, "Delete");
+            }
+        }
+        else if(search == "Log") {
+            table.setAttribute("class", "table table-striped table-hover table-bordered");
+            thead = domHelp.addTbody(table, {});
+            tr = domHelp.addTr(thead,{class: "info"});
+            td = domHelp.addTd(tr,{});
+            h= domHelp.addH3(td, {});
+            domHelp.addText(h, "Time");
+            td2 = domHelp.addTd(tr,{});
+            h2 = domHelp.addH3(td2, {});
+            domHelp.addText(h2, "Message");
+            tbody = domHelp.addTbody(table, {});
+            for(var i=0;i<(myLinks.length-2)/2-1;i++) {
+                tr = domHelp.addTr(tbody,{});
+                td = domHelp.addTd(tr, { id: "logTime"+i});
+                domHelp.addText(td, myLinks[i*2+3]);
+                td2 = domHelp.addTd(tr, {id: "logMessage"+i});
+                domHelp.addText(td2, myLinks[i*2+2]);
+
+            }
+        }
+        else if(search == "Keywords") {
+            for(var i=0;i<(myLinks.length-2)/4;i++) {
+                tr = domHelp.addTr(table,{});
+                SiteView.linkView(tr,i);
+                document.getElementById("linkname"+i).text = myLinks[i*4+3];
+                document.getElementById("linkname"+i).setAttribute("href",myLinks[i*4+5]);
+                document.getElementById("linkname"+i).setAttribute("target","_blank");
+                document.getElementById("linkurl"+i).text = myLinks[i*4+2];
+                document.getElementById("post_time"+i).text = myLinks[i*4+4];
+                document.getElementById("usernamePost"+i).text = myLinks[0];
+            }
         }
 
     }
