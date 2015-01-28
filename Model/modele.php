@@ -553,12 +553,13 @@ class PostTagsManager{
 	}
 
     public function findPostsByTag($tag) {
-        //$posts = array();
-        $sql = 'SELECT * FROM post_tags, posts, tags WHERE tags.tag_name= "' .$tag. '" and post_tags.tags_id= tags.tag_id and posts.post_id=post_tags.post_id ';
-        $requete = $this->_db->prepare($sql);
-        $requete->execute();
-        $row = $requete->fetch();
-        return $row['post_title'];
+        $posts = array();
+        $sql = 'SELECT * FROM post_tags, posts, tags WHERE tags.tag_name LIKE "%' .$tag. '%" AND post_tags.tag_id= tags.tag_id AND posts.post_id=post_tags.post_id ';
+        $requete = $this->_db->query($sql);
+        while($donnees = $requete->fetch()) {
+            array_push($posts, $donnees);
+        }
+        return $posts;
     }
 
 	public function setDb(PDO $db){

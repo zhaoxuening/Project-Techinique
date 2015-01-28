@@ -9,7 +9,7 @@ $cond2 = (isset($_GET["cond2"])) ? $_GET["cond2"] : NULL;
 
 switch ($cond1) {
     case "Tag" :
-        $post = new PostsManager($pdo);
+        //$post = new PostsManager($pdo);
         $post_tag = new PostTagsManager($pdo);
         $posts = $post_tag->findPostsByTag($cond2);
         echo $login;
@@ -17,14 +17,13 @@ switch ($cond1) {
         echo $cond1;
         echo ";";
         for ($i = 0; $i < count($posts); $i++) {
-            $postAll[$i] = $post->findPostByName($posts[$i]);
-            echo $postAll[$i]['post_description'];
+            echo $posts[$i]['post_description'];
             echo ";";
-            echo $postAll[$i]['post_title'];
+            echo $posts[$i]['post_title'];
             echo ";";
-            echo $postAll[$i]['post_created_time'];
+            echo $posts[$i]['post_created_time'];
             echo ";";
-            echo $postAll[$i]['post_url'];
+            echo $posts[$i]['post_url'];
             echo ";";
         }
         break;

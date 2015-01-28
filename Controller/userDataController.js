@@ -129,7 +129,19 @@ UserDataController = {
         table = document.getElementById("tableSearch");
 
         if(search == "User"){
-            for(var i=0;i<(myLinks.length-2)/4;i++) {
+            for(var i=0;i<(myLinks.length-2)/4-1;i++) {
+                tr = domHelp.addTr(table,{});
+                SiteView.linkView(tr,i);
+                document.getElementById("linkname"+i).text = myLinks[i*4+3];
+                document.getElementById("linkname"+i).setAttribute("href",myLinks[i*4+5]);
+                document.getElementById("linkname"+i).setAttribute("target","_blank");
+                document.getElementById("linkurl"+i).text = myLinks[i*4+2];
+                document.getElementById("post_time"+i).text = myLinks[i*4+4];
+                document.getElementById("usernamePost"+i).text = myLinks[0];
+            }
+        }
+        else if (search == "Tag") {
+            for(var i=0;i<(myLinks.length-2)/4-1;i++) {
                 tr = domHelp.addTr(table,{});
                 SiteView.linkView(tr,i);
                 document.getElementById("linkname"+i).text = myLinks[i*4+3];
@@ -175,7 +187,7 @@ UserDataController = {
             }
         }
         else if(search == "Keywords") {
-            for(var i=0;i<(myLinks.length-2)/4;i++) {
+            for(var i=0;i<(myLinks.length-2)/4-1;i++) {
                 tr = domHelp.addTr(table,{});
                 SiteView.linkView(tr,i);
                 document.getElementById("linkname"+i).text = myLinks[i*4+3];
