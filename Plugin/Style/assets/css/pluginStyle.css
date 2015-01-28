@@ -1,0 +1,90 @@
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+    min-width: 500px;
+
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-addLink {
+    max-width: 500px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+    font-weight: normal;
+}
+
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+#description {
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    width: 470px;
+    min-width: 470px;
+    max-width: 470px;
+}
+
+#choice {
+    width: 100%;
+}
+
+#privacy {
+    width: 22%;
+}
+
+#groups {
+    width: 39%;
+}
+
+#newGroup {
+    width: 100%;
+}
+
+#addLink {
+    width: 30%;
+    margin: 10px;
+    float: left;
+}
+
+#cancel {
+    width: 30%;
+    margin: 10px;
+    float: right;
+}
+
+.deconnecter
+{
+    float: right;
+}

@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+
+  "name": "Social Bookmarks",
+  "description": "Social bookmarks des E-Services de Lille1",
+  "version": "1.0",
+
+  "permissions": [
+	"tabs",
+   "http://localhost/",
+   "http://*/",
+   "https://*/"
+  ],
+ 
+  "browser_action": {
+    "default_icon": "Style/assets/ico/icon.png",
+    "default_popup": "popup.html"
+  },
+  
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+}
