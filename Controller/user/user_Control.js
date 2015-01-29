@@ -9,7 +9,29 @@ UserControl = {
             } else {
                 autoConnect_Control.deleteLoginInfo();
             }
-            SiteView.loadHomeView();
+
+            var currentUrl = document.location.href.split("/");
+            switch (currentUrl[currentUrl.length - 1]) {
+                case "#addLink" :
+                    SiteView.loadAddLinkSiteView();
+                    break;
+                case "#myLinks" :
+                    SiteView.loadMyLinksView();
+                    gateway("http://localhost/Controller/link/myLinks.php", "login=" + tab_result[1] + "", "myLinks");
+                    break;
+                case "#myGroups" :
+                    SiteView.loadMyGroupsView();
+                    gateway("http://localhost/Controller/link/myGroups.php", "login=" + tab_result[1] + "", "myGroups");
+                    break;
+                case "#myTags" :
+                    SiteView.loadMyTagsView();
+                    gateway("http://localhost/Controller/link/myTags.php", "login=" + tab_result[1] + "", "myTags");
+                    break;
+                default :
+                    gateway("http://localhost/Controller/link/bestLinks.php", null, "bestLinks");
+                    break;
+            }
+
             document.getElementById("login").text = tab_result[1];
         } else {
             var error  = document.getElementById("errorConnection");

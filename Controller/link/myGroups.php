@@ -10,5 +10,4 @@ $groupsOfUser = $group->findGroupsByUser($id_current);
 echo $login;
 echo ";";
 echo $groupsOfUser;
-echo ";";
 ?>

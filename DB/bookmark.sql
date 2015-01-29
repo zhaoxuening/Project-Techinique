@@ -138,6 +138,8 @@ CREATE TABLE IF NOT EXISTS `social_bookmarks`.`post_tags` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+
+
 -- -----------------------------------------------------
 -- Table `social_bookmarks`.`logs`
 -- -----------------------------------------------------
@@ -147,7 +149,6 @@ CREATE TABLE IF NOT EXISTS `social_bookmarks`.`logs` (
   `user_created_time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`log_id`),
   UNIQUE INDEX `logid_UNIQUE` (`log_id` ASC));
-
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;

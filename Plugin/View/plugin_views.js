@@ -148,13 +148,10 @@ PluginView = {
         domHelp.addInputText(form, {type: "text", id: "tags", name: "tags", class: "form-control", placeholder: "Tags", autofocus: ""});
         p = domHelp.addP(form, {align: "right"});
         domHelp.addText(p, "Comma-separated");
-        p = domHelp.addP(form, {align: "right"});
-        domHelp.addText(p, "Note: use '>' to include one tag in another. e.g. Europe>France>Paris");
-	// priorite
-	
-	table = domHelp.addTable(form, {id: "newPriorite"});
+	    // priorite
+	    table = domHelp.addTable(form, {id: "newPriorite"});
         tr = domHelp.addTr(table, {});
-	td = domHelp.addTd(tr, {id: "priority"});
+	    td = domHelp.addTd(tr, {id: "priority"});
         select = domHelp.addSelect(td, {id: "priorities", name: "priority", class: "form-control"});
         option = domHelp.addOption(select, {value: "0", selected : "selected"});
         domHelp.addText(option, "1");
@@ -162,14 +159,13 @@ PluginView = {
         domHelp.addText(option, "2");
         option = domHelp.addOption(select, {value: "2"});
         domHelp.addText(option, "3");
-	option = domHelp.addOption(select, {value: "3"});
+	    option = domHelp.addOption(select, {value: "3"});
         domHelp.addText(option, "4");
-	option = domHelp.addOption(select, {value: "4"});
+	    option = domHelp.addOption(select, {value: "4"});
         domHelp.addText(option, "5");
-	p = domHelp.addP(form, {align: "right"});
+	    p = domHelp.addP(form, {align: "right"});
         domHelp.addText(p, "Priority for your link");
-	
-	// fin
+	    // fin
         table = domHelp.addTable(form, {id: "choice"});
         tr = domHelp.addTr(table, {});
         td = domHelp.addTd(tr, {id: "privacy"});
@@ -248,10 +244,7 @@ PluginView = {
 
         var addLink = document.getElementById("addLink");
         if (addLink) {
-            addLink.addEventListener("click",
-                function() {
-                    PluginView.registerLink();
-                });
+            addLink.addEventListener("click", PluginView.registerLink, false);
         }
 
         var cancel = document.getElementById("cancel");

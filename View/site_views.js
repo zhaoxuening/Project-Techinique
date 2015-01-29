@@ -1,26 +1,26 @@
 SiteView = {
     registerUser: function () {
-        var login = document.getElementById("registerText").value;
+        var log = document.getElementById("registerText").value;
         var email = document.getElementById("emailRegister").value;
         var pw = document.getElementById("passwordRegister").value;
 
-        UserControl.checkUserDataValidity(login, email, pw, "register");
+        UserControl.checkUserDataValidity(log,email,pw,"register");
 
-        if (document.getElementById("errorInscription").innerHTML === "") {
+        if(document.getElementById("errorInscription").innerHTML === "") {
             var hash = Sha1.hash(pw);
-            gateway("http://localhost/Controller/user/register.php", "login=" + login + "&email=" + email + "&password=" + hash + "", "register");
+            gateway("http://localhost/Controller/user/register.php","login="+log+"&email="+email+"&password="+hash+"","register");
         }
     },
 
     signinUser: function () {
-        var login = document.getElementById("loginText").value;
+        var log = document.getElementById("loginText").value;
         var pw = document.getElementById("passwordLogin").value;
 
-        UserControl.checkUserDataValidity(login, "", pw, "connection");
+        UserControl.checkUserDataValidity(log,"",pw,"connection");
 
-        if (document.getElementById("errorConnection").innerHTML === "") {
+        if(document.getElementById("errorConnection").innerHTML === "") {
             var hash = Sha1.hash(pw);
-            gateway("http://localhost/Controller/user/connexion.php", "login=" + login + "&password=" + hash + "", "connection");
+            gateway("http://localhost/Controller/user/connexion.php","login="+log+"&password="+hash+"","connection");
         }
     },
 
@@ -29,10 +29,11 @@ SiteView = {
         var title = document.getElementById("title").value;
         var description = document.getElementById("description").value;
         var type = document.getElementById("privacyS").options[document.getElementById('privacyS').selectedIndex].text;
+        var priorite = document.getElementById("priorities").options[document.getElementById('priorities').selectedIndex].text;
         var tags = document.getElementById("tags").value;
         var creator = sessionStorage.getItem("currentUserId");
 
-        gateway("http://localhost/Controller/link/addlink.php", "address=" + address + "&title=" + title + "&description=" + description + "&type=" + type + "&tags=" + tags + "&creator=" + creator + "", "addlink");
+        gateway("http://localhost/Controller/link/addlink.php","address="+address+"&title="+title+"&description="+description+"&type="+type+"&priorite="+priorite+"&tags="+tags+"&creator="+creator+"","addlink");
     },
 
     loadToolBarView: function (parent) {
@@ -62,8 +63,8 @@ SiteView = {
         domHelp.addText(a5, "Contact");
 
         var mySocialBM = document.getElementById('mySocialBM');
-        if (mySocialBM) {
-            mySocialBM.addEventListener("click", SiteView.loadMySocialBMView, false);
+        if (mySocialBM){
+            mySocialBM.addEventListener("click",SiteView.loadMySocialBMView,false);
         }
 
         var login = document.getElementById('login');
@@ -73,21 +74,21 @@ SiteView = {
 
         var home = document.getElementById("home");
         if (home) {
-            home.addEventListener("click", SiteView.loadHomeView, false);
+            home.addEventListener("click", function () {
+                gateway("http://localhost/Controller/link/bestLinks.php", null, "bestLinks");
+            });
         }
 
         var addLink = document.getElementById("addLink");
         if (addLink) {
-            addLink.addEventListener("click", function () {
-                if (document.getElementById('login').text == "null") {
-                    SiteView.loadLoginSiteView();
-                }
-                else {
+            addLink.addEventListener("click", function() {
+                if(sessionStorage.getItem("currentUserLogin") !== null) {
                     SiteView.loadAddLinkSiteView();
+                } else {
+                    SiteView.loadLoginSiteView();
                 }
             });
         }
-
     },
 
     loadToolBarLeftView: function (parent) {
@@ -112,32 +113,44 @@ SiteView = {
         a4 = domHelp.addA(li4, {href: "#Logs", id: "Logs"});
         domHelp.addText(a4, "Logs");
 
-
         var myLinks = document.getElementById("myLinks");
         if (myLinks) {
             myLinks.addEventListener("click", function () {
-                    var log = document.getElementById("login").text;
+                var log = document.getElementById("login").text;
+
+                if(log !== "Username") {
                     gateway("http://localhost/Controller/link/myLinks.php", "login=" + log + "", "myLinks");
+                } else {
+                    SiteView.loadLoginSiteView();
                 }
-            );
+
+            });
         }
 
         var myGroups = document.getElementById("myGroups");
         if (myGroups) {
             myGroups.addEventListener("click", function () {
-                    var log = document.getElementById("login").text;
+                var log = document.getElementById("login").text;
+
+                if(log !== "Username") {
                     gateway("http://localhost/Controller/link/myGroups.php", "login=" + log + "", "myGroups");
+                } else {
+                    SiteView.loadLoginSiteView();
                 }
-            );
+            });
         }
 
         var myTags = document.getElementById("myTags");
         if (myTags) {
             myTags.addEventListener("click", function () {
-                    var log = document.getElementById("login").text;
+                var log = document.getElementById("login").text;
+
+                if (log !== "Username") {
                     gateway("http://localhost/Controller/link/myTags.php", "login=" + log + "", "myTags");
+                } else {
+                    SiteView.loadLoginSiteView();
                 }
-            );
+            });
         }
 
         var Logs = document.getElementById("Logs");
@@ -202,24 +215,23 @@ SiteView = {
         }
     },
 
-    linkView: function (parent, i) {
+    linkView: function (parent,i) {
         var div, div2, div3, div4, div5, div6, div7, h2, strong, p2, p3, a, a2, a3, a4, table, tr, td, td2, td3, td4, td5, label;
         div = domHelp.addDiv(parent, {});
         h2 = domHelp.addH3(div, {});
-        //strong = domHelp.addStrong(h2,{});
-        a = domHelp.addA(h2, {class: "text-info", target: "_blank", id: "linkname" + i});
+        a = domHelp.addA(h2, {class: "text-info", href: "#",id: "linkname"+i});
         domHelp.addText(a, "Link name");
 
         p3 = domHelp.addP(div, {});
-        a4 = domHelp.addA(p3, {class: "text-info", href: "#", id: "linkurl" + i});
+        a4 = domHelp.addA(p3, {class: "text-info",id: "linkurl"+i});
         domHelp.addText(a, "Link url");
 
         p2 = domHelp.addP(div, {});
-        label = domHelp.addLabel(p2, {});
+        label = domHelp.addLabel(p2,{});
         domHelp.addText(label, "At ");
-        a2 = domHelp.addA(label, {id: "post_time" + i});
+        a2 = domHelp.addA(label, {id: "post_time"+i});
         domHelp.addText(label, " by @");
-        a3 = domHelp.addA(label, {id: "usernamePost" + i});
+        a3 = domHelp.addA(label, {id: "usernamePost"+i});
         div2 = domHelp.addDiv(div, {});
         table = domHelp.addTable(div2, {});
         tr = domHelp.addTr(table, {});
@@ -236,13 +248,13 @@ SiteView = {
         domHelp.addText(div7, "share");
 
         //test LIKE
-        //var like = document.getElementsByClassName("like-btn");
-        //if (like) {
-        //   like.addEventListener("click", function () {
-        //           alert("ok");
-        //       }
-        //   );
-        //}
+        var like = document.getElementsByClassName("like-btn")[0];
+        if (like) {
+            like.addEventListener("click", function () {
+                    alert("ok");
+                }
+            );
+        }
     },
 
     footerView: function (parent) {
@@ -254,7 +266,7 @@ SiteView = {
     },
 
     loadHomeView: function () {
-        var body, div, div2, div3, table, tr, tr2, tr3, tr4, tr5, tr6, tr7, tr8, tr9;
+        var body, div, div2, div3, table,tr, tr2, tr3, tr4, tr5, tr6, tr7, tr8, tr9;
 
         domHelp.cleanBody();
         body = document.getElementsByTagName("body").item(0);
@@ -265,30 +277,14 @@ SiteView = {
         SiteView.loadToolBarLeftView(div2);
         div3 = domHelp.addDiv(div2, {class: "span9"});
         SiteView.loadToolSearchView(div3);
-        table = domHelp.addTable(div3, {});
-        tr = domHelp.addTr(table, {});
-        SiteView.linkView(tr, 1);
+        table = domHelp.addTable(div3,{id: "tableBestLinks"});
 
-        tr2 = domHelp.addTr(table, {});
-        SiteView.linkView(tr2, 2);
-        tr3 = domHelp.addTr(table, {});
-        SiteView.linkView(tr3, 3);
-        tr4 = domHelp.addTr(table, {});
-        SiteView.linkView(tr4, 4);
-        tr5 = domHelp.addTr(table, {});
-        SiteView.linkView(tr5, 5);
-        tr6 = domHelp.addTr(table, {});
-        SiteView.linkView(tr6, 6);
-        tr7 = domHelp.addTr(table, {});
-        SiteView.linkView(tr7, 7);
-        tr8 = domHelp.addTr(table, {});
-        SiteView.linkView(tr8, 8);
-        tr9 = domHelp.addTr(table, {});
-        SiteView.linkView(tr9, 9);
-
-        domHelp.addHr(div);
-        SiteView.footerView(div);
-        document.getElementById("login").text = sessionStorage.getItem("currentUserLogin");
+        if(sessionStorage.getItem("currentUserLogin") !== null){
+            document.getElementById("login").text = sessionStorage.getItem("currentUserLogin");
+        }
+        else {
+            document.getElementById("login").text = "Username";
+        }
     },
 
     loadLoginSiteView: function () {
@@ -349,9 +345,8 @@ SiteView = {
 
         var submit = document.getElementById('submitSignin');
         if (submit) {
-            submit.addEventListener("click", SiteView.signinUser, false);
+            submit.addEventListener("click",SiteView.signinUser,false);
         }
-
         SiteView.footerView(div);
     },
 
@@ -411,7 +406,7 @@ SiteView = {
 
         var submit = document.getElementById('submit');
         if (submit) {
-            submit.addEventListener("click", SiteView.registerUser, false);
+            submit.addEventListener("click",SiteView.registerUser,false);
         }
         SiteView.footerView(div);
     },
@@ -466,8 +461,24 @@ SiteView = {
         });
         p = domHelp.addP(form, {align: "right"});
         domHelp.addText(p, "Comma-separated");
+        // priorite
+        table = domHelp.addTable(form, {id: "newPriorite"});
+        tr = domHelp.addTr(table, {});
+        td = domHelp.addTd(tr, {id: "priority"});
+        select = domHelp.addSelect(td, {id: "priorities", name: "priority", class: "form-control"});
+        option = domHelp.addOption(select, {value: "0", selected : "selected"});
+        domHelp.addText(option, "1");
+        option = domHelp.addOption(select, {value: "1"});
+        domHelp.addText(option, "2");
+        option = domHelp.addOption(select, {value: "2"});
+        domHelp.addText(option, "3");
+        option = domHelp.addOption(select, {value: "3"});
+        domHelp.addText(option, "4");
+        option = domHelp.addOption(select, {value: "4"});
+        domHelp.addText(option, "5");
         p = domHelp.addP(form, {align: "right"});
-        domHelp.addText(p, "Note: use '>' to include one tag in another. e.g. Europe>France>Paris");
+        domHelp.addText(p, "Priority for your link");
+        // fin
         table = domHelp.addTable(form, {id: "choice"});
         tr = domHelp.addTr(table, {});
         td = domHelp.addTd(tr, {id: "privacy"});
@@ -524,7 +535,9 @@ SiteView = {
 
         var cancel = document.getElementById("btn_cancel");
         if (cancel) {
-            cancel.addEventListener("click", SiteView.loadHomeView, false);
+            cancel.addEventListener("click", function() {
+                gateway("http://localhost/Controller/link/bestLinks.php", null, "bestLinks");
+            });
         }
     },
 
@@ -610,17 +623,16 @@ SiteView = {
         body = document.getElementsByTagName("body").item(0);
         SiteView.loadToolBarView(body);
 
-        div = domHelp.addDiv(body, {class: "jumbotron"});
-        p2 = domHelp.addP(div, {});
-        h = domHelp.addH1(p2, {});
+        div = domHelp.addDiv(body,{class: "jumbotron"});
+        p2 = domHelp.addP(div,{});
+        h = domHelp.addH1(p2,{});
         domHelp.addText(h, "Group Social Bookmark");
         //domHelp.addBr(h);
-        p2 = domHelp.addP(div, {class: "lead"});
+        p2 = domHelp.addP(div,{class: "lead"});
         domHelp.addText(p2, "Teacher : Luigi Lancieri");
-        p2 = domHelp.addP(div, {class: "lead"});
+        p2 = domHelp.addP(div,{class: "lead"});
         domHelp.addText(p2, "Developers : Mounir Daoudi, Theo Calibre, Xuening Zhao");
         img = domHelp.addImg(div, {src: "View/image.jpeg"});
-        SiteView.footerView(body);
 
     },
 
@@ -660,5 +672,5 @@ SiteView = {
 
         SiteView.footerView(div);
     }
-};
 
+};

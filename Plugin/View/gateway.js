@@ -26,22 +26,22 @@ gateway = function(url, params, mode) {
                         LinkControl.addLink();
                         break;
                     case "bestLinks" :
-                        LinkControl.bestLinks();
+                        LinkControl.bestLinks(responseText);
                         break;
                     case "myLinks" :
-                        UserDataController.myLinks(responseText);
+                        LinkControl.myLinks(responseText);
                         break;
                     case "myGroups" :
-                        UserDataController.myGroups(responseText);
+                        LinkControl.myGroups(responseText);
                         break;
                     case "myTags" :
-                        UserDataController.myTags(responseText);
+                        LinkControl.myTags(responseText);
                         break;
                     case "logs" :
-                        UserDataController.logs(responseText);
+                        LinkControl.logs(responseText);
                         break;
                     case "search" :
-                        UserDataController.search(responseText);
+                        LinkControl.search(responseText);
                         break;
                     default:
                         break;
